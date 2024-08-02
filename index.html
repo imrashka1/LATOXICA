@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TOXICNESS</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="scoreboard">
+        <div class="player" id="player1">
+            <h2>Imran</h2>
+            <button onclick="decrement('score1')">-</button>
+            <span id="score1">0</span>
+            <button onclick="increment('score1')">+</button>
+        </div>
+        <div class="player" id="player2">
+            <h2>Jhena</h2>
+            <button onclick="decrement('score2')">-</button>
+            <span id="score2">0</span>
+            <button onclick="increment('score2')">+</button>
+        </div>
+    </div>
+    <button onclick="resetScores()" class="reset-button">Reset</button>
+    <script src="script.js"></script>
+</body>
+</html>
+
+<style>
+    body {
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #ffe4e1;
+}
+
+.scoreboard {
+    display: flex;
+    justify-content: space-around;
+    width: 80%;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.player {
+    text-align: center;
+    padding: 20px;
+    border: 1px solid #ffb6c1;
+    border-radius: 12px;
+    background-color: #fff0f5;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    font-size: 24px;
+    color: #ff69b4;
+}
+
+button {
+    font-size: 20px;
+    padding: 10px 20px;
+    margin: 10px;
+    border: none;
+    border-radius: 8px;
+    background-color: #ff69b4;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.3s;
+}
+
+button:hover {
+    background-color: #ff1493;
+    transform: scale(1.1);
+}
+
+span {
+    display: inline-block;
+    font-size: 30px;
+    margin: 0 20px;
+    min-width: 60px;
+    color: #ff69b4;
+    font-weight: bold;
+    animation: pop 0.2s;
+}
+
+.reset-button {
+    display: block;
+    margin: 20px auto;
+    font-size: 20px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    background-color: #dc3545;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.3s;
+}
+
+.reset-button:hover {
+    background-color: #c82333;
+    transform: scale(1.1);
+}
+
+@keyframes pop {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+
+</style>
+
+<script>
+   document.addEventListener('DOMContentLoaded', (event) => {
+    loadScores();
+});
+
+function increment(scoreId) {
+    const scoreElement = document.getElementById(scoreId);
+    let score = parseInt(scoreElement.innerText);
+    score += 1000000;
+    scoreElement.innerText = score;
+    scoreElement.classList.remove('pop');
+    void scoreElement.offsetWidth; // Trigger reflow
+    scoreElement.classList.add('pop');
+    saveScores();
+}
+
+function decrement(scoreId) {
+    const scoreElement = document.getElementById(scoreId);
+    let score = parseInt(scoreElement.innerText);
+    score -= 1000000;
+    scoreElement.innerText = score;
+    scoreElement.classList.remove('pop');
+    void scoreElement.offsetWidth; // Trigger reflow
+    scoreElement.classList.add('pop');
+    saveScores();
+}
+
+function saveScores() {
+    const score1 = document.getElementById('score1').innerText;
+    const score2 = document.getElementById('score2').innerText;
+    localStorage.setItem('score1', score1);
+    localStorage.setItem('score2', score2);
+}
+
+function loadScores() {
+    const score1 = localStorage.getItem('score1') || '0';
+    const score2 = localStorage.getItem('score2') || '0';
+    document.getElementById('score1').innerText = score1;
+    document.getElementById('score2').innerText = score2;
+}
+
+function resetScores() {
+    document.getElementById('score1').innerText = '0';
+    document.getElementById('score2').innerText = '0';
+    saveScores();
+}
+
+
+</script>
